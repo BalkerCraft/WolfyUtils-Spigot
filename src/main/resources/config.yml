@@ -8,7 +8,7 @@ stack_identifiers:
     "wolfyutilities:itemsadder": 1500
     "wolfyutilities:magic": 600
     "wolfyutilities:eco": 100
-    "wolfyutilities:fancybags": 0
+#    "wolfyutilities:fancybags": 0
     "wolfyutilities:denizen": 0
     "wolfyutilities:wolfyutils": 0
     # Make sure the bukkit identifier has the lowest priority at all times! This will otherwise overwrite everything

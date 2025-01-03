@@ -17,12 +17,9 @@ loadbefore:
   - DiSky
   - EpicWorldGenerator
 
-depend:
-  - NBTAPI
-
 softdepend:
   - Magic
-  - LWC
+#  - LWC
   - PlotSquared
   - WorldGuard
   - MythicMobs
@@ -35,6 +32,7 @@ softdepend:
   - eco
   - zAuctionHouseV3
   - SCore
+  - HelixItems
 
 permissions:
   wolfyutilities.command.query_debug:

@@ -49,9 +49,9 @@ public class WolfyUtilities extends WolfyUtilsBukkit {
         return hasPlugin("PlotSquared");
     }
 
-    public static boolean hasLWC() {
-        return hasPlugin("LWC");
-    }
+//    public static boolean hasLWC() {
+//        return hasPlugin("LWC");
+//    }
 
     public static boolean hasMythicMobs() {
         return hasPlugin("MythicMobs");

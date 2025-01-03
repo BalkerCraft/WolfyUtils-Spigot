@@ -176,9 +176,9 @@ final class PluginsBukkit implements Plugins, Listener {
         return isPluginEnabled("PlotSquared");
     }
 
-    public boolean hasLWC() {
-        return isPluginEnabled("LWC");
-    }
+//    public boolean hasLWC() {
+//        return isPluginEnabled("LWC");
+//    }
 
     public boolean hasPlaceHolderAPI() {
         return isPluginEnabled("PlaceholderAPI");

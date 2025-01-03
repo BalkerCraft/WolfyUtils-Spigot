@@ -6,6 +6,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven("https://artifacts.wolfyscript.com/artifactory/gradle-dev")
+        maven("https://repo.papermc.io/repository/maven-public/")
     }
 }
 
@@ -14,8 +15,8 @@ sequenceOf(
     "plugin-compatibility",
     "nmsutil",
     "nmsutil:v1_17_R1_P1",
-    "nmsutil:v1_18_R1",
-    "nmsutil:v1_18_R1_P1",
+//    "nmsutil:v1_18_R1",
+//    "nmsutil:v1_18_R1_P1",
     "nmsutil:v1_18_R2",
     "nmsutil:v1_19_R3",
     "nmsutil:v1_19_R1",
@@ -23,7 +24,7 @@ sequenceOf(
     "nmsutil:v1_20_R1",
     "nmsutil:v1_20_R2",
     "nmsutil:v1_20_R3",
-    "nmsutil:v1_20_R4",
+    "nmsutil:v1_20_R4"
 ).forEach {
     include(":${it}")
     project(":${it}").projectDir = file(it.replace(":", "/"))
@@ -47,7 +48,7 @@ dependencyResolutionManagement {
             library("fastutil", "it.unimi.dsi", "fastutil").version("8.5.6")
             library("typesafe.config", "com.typesafe", "config").version("1.3.1")
             library("bstats", "org.bstats", "bstats-bukkit").version("3.0.0")
-            library("nbtapi-api", "de.tr7zw", "item-nbt-api-plugin").version("2.14.1")
+            library("nbtapi-api", "de.tr7zw", "item-nbt-api").version("2.14.1")
         }
         // Libraries only used for testing
         create("testLibs") {

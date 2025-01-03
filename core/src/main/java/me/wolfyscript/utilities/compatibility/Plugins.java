@@ -42,7 +42,7 @@ public interface Plugins {
 
     boolean hasPlotSquared();
 
-    boolean hasLWC();
+//    boolean hasLWC();
 
     boolean hasPlaceHolderAPI();
 
