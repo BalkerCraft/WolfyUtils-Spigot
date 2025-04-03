@@ -18,8 +18,6 @@
 
 package me.wolfyscript.utilities.util.chat;
 
-import me.wolfyscript.utilities.util.version.MinecraftVersions;
-import me.wolfyscript.utilities.util.version.ServerVersion;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.regex.Pattern;
@@ -51,20 +49,18 @@ public class ChatColor {
 
     public static String parseHexColorsString(@Nullable String string) {
         if (string == null) return null;
-        if (ServerVersion.isAfterOrEq(MinecraftVersions.v1_16)) {
-            var matcher = HEX_PATTERN.matcher(string);
-            while (matcher.find()) {
-                String group = matcher.group(0);
-                if (string.contains(group)) {
-                    string = string.replace(group, net.md_5.bungee.api.ChatColor.of(group.replace("(", "").replace(")", "").replace("&", "")).toString());
-                }
+        var matcher = HEX_PATTERN.matcher(string);
+        while (matcher.find()) {
+            String group = matcher.group(0);
+            if (string.contains(group)) {
+                string = string.replace(group, net.md_5.bungee.api.ChatColor.of(group.replace("(", "").replace(")", "").replace("&", "")).toString());
             }
-            matcher = HEX_PATTERN_OTHER.matcher(string);
-            while (matcher.find()) {
-                String group = matcher.group(0);
-                if (string.contains(group)) {
-                    string = string.replace(group, net.md_5.bungee.api.ChatColor.of(group.replace("&", "")).toString());
-                }
+        }
+        matcher = HEX_PATTERN_OTHER.matcher(string);
+        while (matcher.find()) {
+            String group = matcher.group(0);
+            if (string.contains(group)) {
+                string = string.replace(group, net.md_5.bungee.api.ChatColor.of(group.replace("&", "")).toString());
             }
         }
         return string;

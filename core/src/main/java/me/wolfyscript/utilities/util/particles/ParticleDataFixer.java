@@ -1,8 +1,5 @@
 package me.wolfyscript.utilities.util.particles;
 
-import me.wolfyscript.utilities.util.version.MinecraftVersion;
-import me.wolfyscript.utilities.util.version.ServerVersion;
-
 import java.util.Map;
 
 public class ParticleDataFixer {
@@ -47,10 +44,7 @@ public class ParticleDataFixer {
     }
 
     public static String convertWhenNecessary(String particleEnumOrKey) {
-        if (ServerVersion.isAfterOrEq(MinecraftVersion.of(1, 20, 5))) { // Apparently the enums were renamed in 1.20.5/1.20.6
-            return PARTICLE_RENAMES.getOrDefault(particleEnumOrKey, particleEnumOrKey);
-        }
-        return particleEnumOrKey;
+        return PARTICLE_RENAMES.getOrDefault(particleEnumOrKey, particleEnumOrKey); // Apparently the enums were renamed in 1.20.5/1.20.6
     }
 
 }

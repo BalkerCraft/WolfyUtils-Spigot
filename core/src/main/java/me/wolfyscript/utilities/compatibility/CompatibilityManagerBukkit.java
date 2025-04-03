@@ -18,16 +18,10 @@
 
 package me.wolfyscript.utilities.compatibility;
 
-import com.wolfyscript.utilities.bukkit.nms.ServerProperties;
 import me.wolfyscript.utilities.api.WolfyUtilCore;
-import me.wolfyscript.utilities.util.version.MinecraftVersion;
-import me.wolfyscript.utilities.util.version.ServerVersion;
-
-import java.util.Properties;
 
 public final class CompatibilityManagerBukkit implements CompatibilityManager {
 
-    private boolean has1_20Features = false;
     private final WolfyUtilCore core;
     private final PluginsBukkit pluginsBukkit;
 
@@ -38,22 +32,14 @@ public final class CompatibilityManagerBukkit implements CompatibilityManager {
 
     public void init() {
         pluginsBukkit.init();
-        Properties properties = ServerProperties.get();
-        has1_20Features = ServerVersion.getVersion().isAfterOrEq(MinecraftVersion.of(1, 20, 0));
-        // If the version is already 1.20 or later, then it has 1.20 features!
-        if (!has1_20Features && ServerVersion.getVersion().isAfterOrEq(MinecraftVersion.of(1, 19, 4))) {
-            String initialEnabledDataPacks = properties.getProperty("initial-enabled-packs", "vanilla");
-            for (String s : initialEnabledDataPacks.split(",")) {
-                if (s.equalsIgnoreCase("update_1_20")) {
-                    has1_20Features = true;
-                    break;
-                }
-            }
-        }
     }
 
+    /**
+     * @deprecated wolfyutils only supports the latest mc version. So this always returns true!
+     */
+    @Deprecated(forRemoval = true)
     public boolean has1_20Features() {
-        return has1_20Features;
+        return true;
     }
 
     public Plugins getPlugins() {

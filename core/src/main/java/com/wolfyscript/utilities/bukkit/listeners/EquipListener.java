@@ -53,7 +53,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@Deprecated(forRemoval = true)
+/**
+ * In 1.21.5 Minecraft has the possibility to create custom equipment using data components, that should be used instead!
+ */
+@Deprecated(forRemoval = true, since = "4.19")
 public class EquipListener implements Listener {
 
     private final WolfyUtilCore core;

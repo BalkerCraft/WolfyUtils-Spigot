@@ -105,17 +105,9 @@ public class ItemUtils {
                     itemBuilder.addLoreLine(ChatColor.convert(s));
                 }
             }
-            itemBuilder.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, getAdditionalHideFlags());
+            itemBuilder.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         }
         return itemBuilder.create();
-    }
-
-    public static ItemFlag getAdditionalHideFlags() {
-        if (ServerVersion.isAfterOrEq(MinecraftVersion.of(1, 20, 5))) {
-            return ItemFlag.valueOf("HIDE_ADDITIONAL_TOOLTIP");
-        } else {
-            return ItemFlag.HIDE_ADDITIONAL_TOOLTIP;
-        }
     }
 
     public static ItemStack createItem(ItemStack itemStack, Component displayName, List<Component> lore) {
@@ -124,7 +116,7 @@ public class ItemUtils {
         if (itemMeta != null) {
             itemBuilder.setDisplayName(BukkitComponentSerializer.legacy().serialize(displayName));
             itemBuilder.setLore(lore.stream().map(line -> BukkitComponentSerializer.legacy().serialize(line)).toList());
-            itemBuilder.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, getAdditionalHideFlags());
+            itemBuilder.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         }
         return itemBuilder.create();
     }

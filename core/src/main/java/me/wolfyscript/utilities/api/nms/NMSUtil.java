@@ -20,28 +20,10 @@ package me.wolfyscript.utilities.api.nms;
 
 import com.wolfyscript.utilities.bukkit.nms.fallback.FallbackNMSEntry;
 import me.wolfyscript.utilities.api.WolfyUtilities;
-import me.wolfyscript.utilities.util.Reflection;
-import me.wolfyscript.utilities.util.version.MinecraftVersion;
 import me.wolfyscript.utilities.util.version.ServerVersion;
 import org.bukkit.plugin.Plugin;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public abstract class NMSUtil {
-
-    private static final List<VersionHandler> versionHandlers = new ArrayList<>();
-    private static final HashMap<String, VersionHandler> versionAdapters = new HashMap<>();
-
-    static { }
-
-    private static void registerAdapter(VersionHandler adapter) {
-        for (String minecraftVersion : adapter.getMinecraftVersions()) {
-            versionAdapters.put(minecraftVersion, adapter);
-        }
-    }
 
     private final WolfyUtilities wolfyUtilities;
 
@@ -78,36 +60,7 @@ public abstract class NMSUtil {
         if(ServerVersion.isIsJUnitTest()) {
             return null;
         }
-        if (ServerVersion.getVersion().isAfterOrEq(MinecraftVersion.of(1, 21, 0))) {
-            return new FallbackNMSEntry(wolfyUtilities); // When using 1.21+ WolfyUtils no longer provides NMSUtils
-        }
-        String version = Reflection.getVersion().orElse(null);
-        try {
-            final VersionHandler adapter;
-            if (version == null) {
-                // Using mojang mappings
-                adapter = versionAdapters.get(ServerVersion.getVersion().getVersion());
-            } else {
-                // Use Spigot mappings
-                adapter = versionAdapters.get(version);
-            }
-            if (adapter != null) {
-                version = adapter.getPackageName();
-            }
-            wolfyUtilities.getConsole().getLogger().info("NMS Version: " + version);
-            String className = NMSUtil.class.getPackage().getName() + '.' + version + ".NMSEntry";
-            Class<?> nmsUtilsType = Class.forName(className);
-            if (NMSUtil.class.isAssignableFrom(nmsUtilsType)) {
-                Constructor<?> constructor = nmsUtilsType.getDeclaredConstructor(WolfyUtilities.class);
-                constructor.setAccessible(true);
-                return ((NMSUtil) constructor.newInstance(wolfyUtilities));
-            }
-        } catch (ReflectiveOperationException ex) {
-            // failed to find NMS implementation
-        }
-        //Unsupported version
-        wolfyUtilities.getCore().getLogger().warning("Did not detect NMS implementation for server version (" + version + ")! Using Fallback! This might cause issue if plugins use the NMS Utils!");
-        return new FallbackNMSEntry(wolfyUtilities);
+        return new FallbackNMSEntry(wolfyUtilities); // When using 1.21+ WolfyUtils no longer provides NMSUtils
     }
 
     public WolfyUtilities getWolfyUtilities() {
@@ -142,60 +95,6 @@ public abstract class NMSUtil {
     @Deprecated(forRemoval = true, since = "4.17")
     public NetworkUtil getNetworkUtil() {
         return networkUtil;
-    }
-
-    /**
-     * Used to handle new types of NMS versions introduced with spigot 1.17 thanks to the use of Mojang mappings.
-     */
-    private static class VersionAdapter implements VersionHandler {
-
-        protected final String version;
-
-        public VersionAdapter(String entryVersion) {
-            this.version = entryVersion;
-        }
-
-        @Override
-        public String getPackageName() {
-            if (ServerVersion.getVersion().getPatch() > 0) {
-                return version + "_P" + ServerVersion.getVersion().getPatch();
-            }
-            return version;
-        }
-
-        @Override
-        public String[] getMinecraftVersions() {
-            return new String[]{version};
-        }
-    }
-
-    private static class MinecraftToNMSRevision implements VersionHandler {
-
-        private final String[] mcVersions;
-        private final String nmsRevision;
-
-        private MinecraftToNMSRevision(String nmsRevision, String... mcVersions) {
-            this.mcVersions = mcVersions;
-            this.nmsRevision = nmsRevision;
-        }
-
-        @Override
-        public String getPackageName() {
-            return nmsRevision;
-        }
-
-        @Override
-        public String[] getMinecraftVersions() {
-            return mcVersions;
-        }
-    }
-
-    private interface VersionHandler {
-
-        String getPackageName();
-
-        String[] getMinecraftVersions();
-
     }
 
 }
