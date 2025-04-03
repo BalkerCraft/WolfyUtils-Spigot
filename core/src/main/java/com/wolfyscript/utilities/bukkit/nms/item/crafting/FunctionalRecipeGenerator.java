@@ -1,8 +1,6 @@
 package com.wolfyscript.utilities.bukkit.nms.item.crafting;
 
 import me.wolfyscript.utilities.api.WolfyUtilCore;
-import me.wolfyscript.utilities.util.version.MinecraftVersion;
-import me.wolfyscript.utilities.util.version.ServerVersion;
 
 public interface FunctionalRecipeGenerator {
 
@@ -13,7 +11,7 @@ public interface FunctionalRecipeGenerator {
     boolean addRecipeToRecipeManager(FunctionalRecipe<?> recipe);
 
     static FunctionalRecipeGenerator create(WolfyUtilCore core) {
-        return ServerVersion.isAfterOrEq(MinecraftVersion.of(1, 20, 0)) ? new EmptyFunctionalRecipeGenerator() : new DeprecatedFunctionalRecipeGenerator(core);
+        return new EmptyFunctionalRecipeGenerator();
     }
 
     /**
