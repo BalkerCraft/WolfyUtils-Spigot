@@ -53,6 +53,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+@Deprecated(forRemoval = true)
 public class EquipListener implements Listener {
 
     private final WolfyUtilCore core;

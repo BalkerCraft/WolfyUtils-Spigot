@@ -522,22 +522,34 @@ public class CustomItem extends AbstractItemBuilder<CustomItem> implements Keyed
 
     /**
      * @return The EquipmentSlots this item can be equipped to.
+     * @deprecated This is now replaced by the vanilla data component
      */
+    @Deprecated(forRemoval = true)
     public List<EquipmentSlot> getEquipmentSlots() {
         return equipmentSlots;
     }
 
     /**
      * @return True if the item has a custom {@link EquipmentSlot} it can be equipped to.
+     * @deprecated Has been replaced by the vanilla data component
      */
+    @Deprecated(forRemoval = true)
     public boolean hasEquipmentSlot() {
         return !getEquipmentSlots().isEmpty();
     }
 
+    /**
+     * @deprecated Has been replaced by the vanilla data component
+     */
+    @Deprecated(forRemoval = true)
     public boolean hasEquipmentSlot(EquipmentSlot slot) {
         return hasEquipmentSlot() && getEquipmentSlots().contains(slot);
     }
 
+    /**
+     * @deprecated Has been replaced by the vanilla data component
+     */
+    @Deprecated(forRemoval = true)
     public void addEquipmentSlots(EquipmentSlot... slots) {
         for (EquipmentSlot slot : slots) {
             if (!equipmentSlots.contains(slot)) {
@@ -546,6 +558,10 @@ public class CustomItem extends AbstractItemBuilder<CustomItem> implements Keyed
         }
     }
 
+    /**
+     * @deprecated Has been replaced by the vanilla data component
+     */
+    @Deprecated(forRemoval = true)
     public void removeEquipmentSlots(EquipmentSlot... slots) {
         equipmentSlots.removeAll(Arrays.asList(slots));
     }
@@ -555,11 +571,17 @@ public class CustomItem extends AbstractItemBuilder<CustomItem> implements Keyed
      * If true the item cannot be equipped even if it is a chestplate or other equipment.
      *
      * @return true if the item is blocked from equipping, else false
+     * @deprecated Has been replaced by the vanilla data component
      */
+    @Deprecated(forRemoval = true)
     public boolean isBlockVanillaEquip() {
         return blockVanillaEquip;
     }
 
+    /**
+     * @deprecated Has been replaced by the vanilla data component
+     */
+    @Deprecated(forRemoval = true)
     public void setBlockVanillaEquip(boolean blockVanillaEquip) {
         this.blockVanillaEquip = blockVanillaEquip;
     }
