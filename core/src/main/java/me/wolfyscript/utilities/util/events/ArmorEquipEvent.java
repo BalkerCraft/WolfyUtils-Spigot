@@ -18,9 +18,10 @@
 
 package me.wolfyscript.utilities.util.events;
 
+import com.wolfyscript.utilities.bukkit.persistent.player.PlayerParticleEffectData;
+import me.wolfyscript.utilities.api.WolfyUtilCore;
 import me.wolfyscript.utilities.api.inventory.custom_items.ArmorType;
 import me.wolfyscript.utilities.api.inventory.custom_items.CustomItem;
-import me.wolfyscript.utilities.util.entity.PlayerUtils;
 import me.wolfyscript.utilities.util.inventory.ItemUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -30,7 +31,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * This event is called whenever armor is equipped or unequipped.<br>
- *
+ * <p>
  * The {@link EquipMethod} shows how the item was equipped/unequipped.<br>
  * Cancelling the event will prevent the current action.<br>
  * Cancelling an event with the {@link EquipMethod#DEATH} method has no affect!<br>
@@ -72,11 +73,13 @@ public class ArmorEquipEvent extends PlayerEvent implements Cancellable {
         if (!ItemUtils.isAirOrNull(newArmorPiece)) {
             //Equipping new armor!
             if (!ItemUtils.isAirOrNull(newCustomArmorPiece) && newCustomArmorPiece.hasEquipmentSlot(equipmentSlot)) {
-                PlayerUtils.stopActiveParticleEffect(getPlayer(), equipmentSlot);
+                WolfyUtilCore.getInstance().getPersistentStorage().getOrCreatePlayerStorage(player).getData(PlayerParticleEffectData.class)
+                        .ifPresent(data -> data.stopActiveParticleEffect(equipmentSlot));
                 newCustomArmorPiece.getParticleContent().spawn(player, equipmentSlot);
             }
         } else {
-            PlayerUtils.stopActiveParticleEffect(getPlayer(), equipmentSlot);
+            WolfyUtilCore.getInstance().getPersistentStorage().getOrCreatePlayerStorage(player).getData(PlayerParticleEffectData.class)
+                    .ifPresent(data -> data.stopActiveParticleEffect(equipmentSlot));
         }
     }
 

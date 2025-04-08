@@ -27,7 +27,6 @@ import com.wolfyscript.utilities.bukkit.world.items.reference.StackIdentifier;
 import com.wolfyscript.utilities.bukkit.world.items.reference.WolfyUtilsStackIdentifier;
 import com.wolfyscript.utilities.common.WolfyCore;
 import me.wolfyscript.utilities.api.console.Console;
-import me.wolfyscript.utilities.api.inventory.custom_items.CustomData;
 import me.wolfyscript.utilities.api.inventory.custom_items.CustomItem;
 import me.wolfyscript.utilities.api.inventory.custom_items.actions.*;
 import me.wolfyscript.utilities.api.inventory.custom_items.meta.*;
@@ -57,7 +56,6 @@ import me.wolfyscript.utilities.util.particles.timer.TimerLinear;
 import me.wolfyscript.utilities.util.particles.timer.TimerPi;
 import me.wolfyscript.utilities.util.particles.timer.TimerRandom;
 import me.wolfyscript.utilities.util.version.ServerVersion;
-import me.wolfyscript.utilities.util.world.WorldUtils;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -164,8 +162,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
         VectorSerialization.create(module);
         // APIReference Deserializer
         APIReferenceSerialization.create(module);
-        // Serializer for the old CustomData
-        module.addSerializer(CustomData.DeprecatedCustomDataWrapper.class, new CustomData.Serializer());
 
         // Add module to WU Modules and register it to the old JacksonUtil.
         jsonMapperModules.add(module);
@@ -341,7 +337,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
         if (!ServerVersion.isIsJUnitTest()) {
             this.metrics = new Metrics(this, 5114);
 
-            WorldUtils.load();
             registerListeners();
             registerCommands();
 
