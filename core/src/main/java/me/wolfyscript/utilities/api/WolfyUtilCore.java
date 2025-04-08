@@ -8,7 +8,6 @@ import com.wolfyscript.utilities.bukkit.chat.ChatImpl;
 import com.wolfyscript.utilities.bukkit.commands.*;
 import com.wolfyscript.utilities.bukkit.items.CustomItemBlockData;
 import com.wolfyscript.utilities.bukkit.items.CustomItemData;
-import com.wolfyscript.utilities.bukkit.listeners.EquipListener;
 import com.wolfyscript.utilities.bukkit.listeners.GUIInventoryListener;
 import com.wolfyscript.utilities.bukkit.listeners.PersistentStorageListener;
 import com.wolfyscript.utilities.bukkit.listeners.PlayerListener;
@@ -350,7 +349,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
         Bukkit.getPluginManager().registerEvents(new CustomDurabilityListener(this), this);
         Bukkit.getPluginManager().registerEvents(new CustomParticleListener(this), this);
         Bukkit.getPluginManager().registerEvents(new CustomItemPlayerListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new EquipListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
         Bukkit.getPluginManager().registerEvents(new GUIInventoryListener(), this);
         Bukkit.getPluginManager().registerEvents(new PersistentStorageListener(this), this);
