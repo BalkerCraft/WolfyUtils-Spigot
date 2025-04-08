@@ -17,7 +17,6 @@ import com.wolfyscript.utilities.bukkit.listeners.custom_item.CustomItemDataList
 import com.wolfyscript.utilities.bukkit.listeners.custom_item.CustomItemPlayerListener;
 import com.wolfyscript.utilities.bukkit.listeners.custom_item.CustomParticleListener;
 import com.wolfyscript.utilities.bukkit.nbt.*;
-import com.wolfyscript.utilities.bukkit.nms.item.crafting.FunctionalRecipeGenerator;
 import com.wolfyscript.utilities.bukkit.persistent.PersistentStorage;
 import com.wolfyscript.utilities.bukkit.persistent.player.CustomPlayerData;
 import com.wolfyscript.utilities.bukkit.persistent.player.PlayerParticleEffectData;
@@ -107,7 +106,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
     private final MessageHandler messageHandler;
     private final MessageFactory messageFactory;
     private final PersistentStorage persistentStorage;
-    private final FunctionalRecipeGenerator functionalRecipeGenerator;
 
     protected WolfyUtilCore() {
         super();
@@ -125,7 +123,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
         this.messageHandler = new MessageHandler(this);
         this.messageFactory = new MessageFactory(this);
         this.persistentStorage = new PersistentStorage(this);
-        this.functionalRecipeGenerator = FunctionalRecipeGenerator.create(this);
         this.config = new WUConfig(api.getConfigAPI(), this);
 
         // Data that needs to be registered
@@ -145,8 +142,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
     @Override
     public void onLoad() {
         getLogger().setLevel(Level.ALL);
-
-        functionalRecipeGenerator.generateRecipeClasses();
 
         // Jackson Serializer
         getLogger().info("Register JSON de-/serializers");
@@ -519,10 +514,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
 
     public PersistentStorage getPersistentStorage() {
         return persistentStorage;
-    }
-
-    public FunctionalRecipeGenerator getFunctionalRecipeGenerator() {
-        return functionalRecipeGenerator;
     }
 
     @Override
