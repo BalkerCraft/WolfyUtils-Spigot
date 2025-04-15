@@ -37,10 +37,6 @@
       "labels": [
         "ci", "cd"
       ]
-    },
-    {
-      "title": "## 📦 Misc",
-      "labels": []
     }
   ],
   "ignore_labels": [
