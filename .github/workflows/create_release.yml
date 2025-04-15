@@ -28,6 +28,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          fromTag: v4.18.6
           mode: HYBRID
           configuration: .github/release_config.json
 
