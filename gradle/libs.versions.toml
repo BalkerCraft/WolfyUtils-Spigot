@@ -27,7 +27,7 @@ minotaur = "2.+"
 ## Spigot Impl dependencies ##
 papermc = "1.21.4-R0.1-SNAPSHOT"
 wolfyutils = "4.16.1-SNAPSHOT"
-nbtapi = "2.14.1"
+nbtapi = "2.15.1"
 helixitems = "0.1"
 ## ##
 
