@@ -1,7 +1,7 @@
 name: WolfyUtilities
 version: '${project.version}'
 main: com.wolfyscript.utilities.bukkit.WolfyCoreBukkit
-api-version: 1.21.4
+api-version: 1.21.1
 authors: [ WolfyScript ]
 load: STARTUP
 
