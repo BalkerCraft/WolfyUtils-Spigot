@@ -59,6 +59,7 @@ tasks.named<ShadowJar>("shadowJar") {
         include(dependency("${libs.adventure.platform.bukkit.get().group}:.*"))
         include(dependency("${libs.adventure.minimessage.get().group}:.*"))
         include(dependency("${libs.typesafe.config.get().group}:.*"))
+        include(dependency("${libs.nbtapi.get().group}:.*"))
         include(project(":core"))
         include(project(":plugin-compatibility"))
     }

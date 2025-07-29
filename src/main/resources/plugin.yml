@@ -4,8 +4,6 @@ main: com.wolfyscript.utilities.bukkit.WolfyCoreBukkit
 api-version: 1.21.4
 authors: [ WolfyScript ]
 load: STARTUP
-depend:
-  - NBTAPI
 
 libraries:
   - "com.google.inject:guice:5.1.0"
@@ -20,8 +18,6 @@ loadbefore:
   - EpicWorldGenerator
 
 softdepend:
-  - Magic
-#  - LWC
   - PlotSquared
   - WorldGuard
   - MythicMobs
@@ -33,7 +29,6 @@ softdepend:
   - PlaceholderAPI
   - eco
   - zAuctionHouseV3
-  - SCore
   - HelixItems
 
 permissions:
