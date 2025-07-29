@@ -12,6 +12,7 @@ dependencies {
     compileOnly("net.Indyuce:MMOItems-API:6.9.2-SNAPSHOT")
     compileOnly("io.lumine:Mythic-Dist:5.6.1")
     compileOnly("com.google.inject:guice:5.1.0")
+    compileOnly("hu.kamillplayz:helixitems:0.1")
     compileOnly(project(":core"))
 }
 
