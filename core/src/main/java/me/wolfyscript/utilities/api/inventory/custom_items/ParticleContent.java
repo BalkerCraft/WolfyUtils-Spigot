@@ -18,11 +18,7 @@
 
 package me.wolfyscript.utilities.api.inventory.custom_items;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import me.wolfyscript.utilities.api.WolfyUtilCore;
 import me.wolfyscript.utilities.util.NamespacedKey;
@@ -257,7 +253,7 @@ public class ParticleContent {
         public ParticleAnimation getByEquipmentSlot(EquipmentSlot equipmentSlot) {
             return switch (equipmentSlot) {
                 case HEAD -> getHead();
-                case CHEST -> getChest();
+                case CHEST, BODY -> getChest(); // TODO
                 case LEGS -> getLegs();
                 case FEET -> getFeet();
                 case HAND -> getMainHand();

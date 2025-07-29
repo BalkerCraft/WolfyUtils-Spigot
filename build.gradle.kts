@@ -3,8 +3,9 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     id("com.wolfyscript.wolfyutils.spigot.java-conventions")
     id("io.github.goooler.shadow") version "8.1.7"
-//    id("com.wolfyscript.devtools.docker.run") version "2.0-SNAPSHOT"
-//    id("com.wolfyscript.devtools.docker.minecraft_servers") version "2.0-SNAPSHOT"
+    id("com.wolfyscript.devtools.docker.run") version "a2.0.0.1"
+    id("com.wolfyscript.devtools.docker.minecraft_servers") version "a2.0.0.1"
+    id("com.modrinth.minotaur") version "2.+"
 }
 
 description = "wolfyutils-spigot"
@@ -13,8 +14,6 @@ dependencies {
     api(apis.wolfyutils)
     implementation(project(":core"))
     implementation(project(":plugin-compatibility"))
-    implementation(project(":nmsutil"))
-//    implementation(apis.wolfyutils)
     api(libs.bstats)
     api(libs.guice)
     api(libs.reflections)
@@ -39,77 +38,41 @@ tasks.named<ProcessResources>("processResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-//val debugPort: String = "5006"
-//
-//minecraftDockerRun {
-////    clean.set(false)
-//    val customEnv = env.get().toMutableMap()
-//    customEnv["MEMORY"] = "2G"
-//    customEnv["JVM_OPTS"] = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${debugPort}"
-//    customEnv["FORCE_REDOWNLOAD"] = "false"
-//    env.set(customEnv)
-//    arguments("--cpus", "2", "-it") // Constrain to only use 2 cpus, and allow for console interactivity with 'docker attach'
-//}
-//
-//minecraftServers {
-//    serversDir.set(file("${System.getProperty("user.home")}${File.separator}minecraft${File.separator}test_servers_v4"))
-//    libName.set("${project.name}-${version}.jar")
-//    val debugPortMapping = "${debugPort}:${debugPort}"
-//    servers {
-//        register("spigot_1_17") {
-//            version.set("1.17.1")
-//            imageVersion.set("java17")
-//            type.set("SPIGOT")
-//            ports.set(setOf(debugPortMapping, "25565:25565"))
-//        }
-//        register("spigot_1_18") {
-//            version.set("1.18.2")
-//            imageVersion.set("java17")
-//            type.set("SPIGOT")
-//            ports.set(setOf(debugPortMapping, "25566:25565"))
-//        }
-//        register("spigot_1_19") {
-//            version.set("1.19.4")
-//            imageVersion.set("java17")
-//            type.set("SPIGOT")
-//            ports.set(setOf(debugPortMapping, "25567:25565"))
-//        }
-//        register("spigot_1_20_6") {
-//            version.set("1.20.6")
-//            type.set("SPIGOT")
-//            imageVersion.set("java21")
-//            ports.set(setOf(debugPortMapping, "25568:25565"))
-//        }
-//        register("spigot_1_21") {
-//            version.set("1.21.3")
-//            type.set("SPIGOT")
-//            extraEnv.put("BUILD_FROM_SOURCE", "true")
-//            imageVersion.set("java21-graalvm") // graalvm contains the jdk required to build from source
-//            ports.set(setOf(debugPortMapping, "25569:25565"))
-//        }
-//        // Paper test servers
-//        register("paper_1_21") {
-//            version.set("1.21.3")
-//            type.set("PAPER")
-//            imageVersion.set("java21")
-//            ports.set(setOf(debugPortMapping, "25569:25565"))
-//        }
-//        register("paper_1_20") {
-//            version.set("1.20.6")
-//            type.set("PAPER")
-//            imageVersion.set("java21")
-//            ports.set(setOf(debugPortMapping, "25570:25565"))
-//        }
-//        register("paper_1_19") {
-//            version.set("1.19.4")
-//            type.set("PAPER")
-//            ports.set(setOf(debugPortMapping, "25571:25565"))
-//        }
-//    }
-//}
+val debugPort: String = "5006"
+
+minecraftDockerRun {
+//    clean.set(false)
+    val customEnv = env.get().toMutableMap()
+    customEnv["MEMORY"] = "2G"
+    customEnv["JVM_OPTS"] = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${debugPort}"
+    customEnv["FORCE_REDOWNLOAD"] = "false"
+    env.set(customEnv)
+    arguments("--cpus", "2", "-it") // Constrain to only use 2 cpus, and allow for console interactivity with 'docker attach'
+}
+
+minecraftServers {
+    serversDir.set(file("${System.getProperty("user.home")}${File.separator}minecraft${File.separator}test_servers_v4"))
+    libName.set("${project.name}-${version}.jar")
+    val debugPortMapping = "${debugPort}:${debugPort}"
+    servers {
+        register("spigot_1_21") {
+            version.set("1.21.4")
+            type.set("SPIGOT")
+            extraEnv.put("BUILD_FROM_SOURCE", "true")
+            imageVersion.set("java21-graalvm") // graalvm contains the jdk required to build from source
+            ports.set(setOf(debugPortMapping, "25569:25565"))
+        }
+        // Paper test servers
+        register("paper_1_21") {
+            version.set("1.21.4")
+            type.set("PAPER")
+            imageVersion.set("java21")
+            ports.set(setOf(debugPortMapping, "25569:25565"))
+        }
+    }
+}
 
 tasks.named<ShadowJar>("shadowJar") {
-    dependsOn(project(":nmsutil").tasks.named("shadowJar"))
     dependsOn(project(":core").tasks.named("shadowJar"))
     mustRunAfter("jar")
     mergeServiceFiles()
@@ -125,7 +88,6 @@ tasks.named<ShadowJar>("shadowJar") {
         include(dependency(apis.dataformat.hocon.get().toString()))
         include(dependency("${libs.jackson.get().group}:.*"))
         include(dependency("${libs.bstats.get().group}:.*"))
-        include(dependency("${libs.nbtapi.api.get().group}:.*"))
         include(dependency("${libs.reflections.get().group}:.*"))
         include(dependency("${libs.javassist.get().group}:.*"))
         include(dependency("${libs.adventure.api.get().group}:.*"))
@@ -134,7 +96,6 @@ tasks.named<ShadowJar>("shadowJar") {
         include(dependency("${libs.typesafe.config.get().group}:.*"))
         include(project(":core"))
         include(project(":plugin-compatibility"))
-        include(project(":nmsutil"))
     }
 
     // Always required to be shaded and relocated!
@@ -142,7 +103,6 @@ tasks.named<ShadowJar>("shadowJar") {
 
     // Dependencies (pre spigot plugin.yml dependency update) required to be shaded! To be removed in v5!
     relocate("com.typesafe", "com.wolfyscript.lib.com.typesafe")
-    relocate("de.tr7zw.changeme.nbtapi", "com.wolfyscript.lib.nbt.nbtapi")
 
     // Still using me.wolfyscript.lib package! To be changed/removed in v5!
     relocate("org.reflections", "me.wolfyscript.lib.org.reflections")
@@ -155,15 +115,14 @@ tasks.named("test") {
     dependsOn.add(tasks.named("shadowJar"))
 }
 
-
 artifactory {
 
     publish {
         contextUrl = "https://artifacts.wolfyscript.com/artifactory"
         repository {
             repoKey = "gradle-dev-local"
-            username = project.properties["wolfyRepoPublishUsername"].toString()
-            password = project.properties["wolfyRepoPublishToken"].toString()
+            username = System.getenv("ARTIFACTORY_USERNAME")
+            password = System.getenv("ARTIFACTORY_TOKEN")
         }
         defaults {
             publications("lib")
@@ -173,4 +132,15 @@ artifactory {
         }
     }
 
+}
+
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN")) // Remember to have the MODRINTH_TOKEN environment variable set or else this will fail - just make sure it stays private!
+    projectId.set("wolfyutils") // This can be the project ID or the slug. Either will work!
+    versionNumber.set(project.version.toString()) // You don't need to set this manually. Will fail if Modrinth has this version already
+    versionType.set("release") // TODO: Automatically determine this from the version
+    uploadFile.set(tasks.shadowJar) // Use the shadowed jar !!
+    changelog.set(System.getenv("CHANGELOG"))
+    gameVersions.addAll("1.21.4") // Must be an array, even with only one version
+    loaders.addAll("bukkit", "spigot", "paper", "purpur") // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
 }

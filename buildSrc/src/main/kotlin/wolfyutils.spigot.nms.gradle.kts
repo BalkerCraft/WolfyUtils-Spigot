@@ -25,7 +25,7 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 publishing {
@@ -53,7 +53,7 @@ tasks {
         options.encoding = Charsets.UTF_8.name()
     }
     compileJava {
-        options.release.set(17)
+        options.release.set(21)
     }
     reobfJar {}
 }

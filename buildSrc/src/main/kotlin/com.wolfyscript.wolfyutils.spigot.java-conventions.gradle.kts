@@ -19,26 +19,27 @@ repositories {
     maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven(url = "https://libraries.minecraft.net/")
     maven(url="https://mvn.lumine.io/repository/maven-public/")
+    maven(url="https://maven.devs.beer/")
 
     maven("https://repo.auxilor.io/repository/maven-public/")
 }
 
 java {
     // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 val apiVersion = "4.16.1-SNAPSHOT"
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     compileOnly("com.wolfyscript.wolfyutils:wolfyutilities:${apiVersion}")
     compileOnly("com.fasterxml.jackson.core:jackson-databind:2.14.0-rc1")
     compileOnly("org.jetbrains:annotations:23.0.0")
     compileOnly("com.mojang:authlib:1.5.21")
     compileOnly("io.netty:netty-all:4.1.85.Final")
     compileOnly("org.bstats:bstats-bukkit:3.0.0")
-    compileOnly("de.tr7zw:item-nbt-api:2.14.1")
+    compileOnly("de.tr7zw:item-nbt-api-plugin:2.14.1")
     // Common Test libs
     testImplementation("com.wolfyscript.wolfyutils:wolfyutilities:${apiVersion}")
 }
@@ -54,7 +55,7 @@ publishing {
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
-    options.release.set(17)
+    options.release.set(21)
 }
 
 tasks.withType<Javadoc>() {

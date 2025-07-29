@@ -1,9 +1,11 @@
 name: WolfyUtilities
 version: '${project.version}'
 main: com.wolfyscript.utilities.bukkit.WolfyCoreBukkit
-api-version: 1.16
+api-version: 1.21.4
 authors: [ WolfyScript ]
 load: STARTUP
+depend:
+  - NBTAPI
 
 libraries:
   - "com.google.inject:guice:5.1.0"
