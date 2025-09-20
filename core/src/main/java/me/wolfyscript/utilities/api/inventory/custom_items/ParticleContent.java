@@ -258,7 +258,7 @@ public class ParticleContent {
                 case FEET -> getFeet();
                 case HAND -> getMainHand();
                 case OFF_HAND -> getOffHand();
-                case SADDLE, BODY -> null;
+                default -> null;
             };
         }
 
