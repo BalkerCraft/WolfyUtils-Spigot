@@ -612,11 +612,13 @@ public class CustomItem extends AbstractItemBuilder<CustomItem> implements Keyed
             var itemStack = stackIdentifier.stack(ItemCreateContext.empty(amount)).clone();
             if (this.hasNamespacedKey()) {
                 var itemMeta = itemStack.getItemMeta();
-                var container = itemMeta.getPersistentDataContainer();
-                synchronized (container.getClass()) { // The container has a thread-unsafe map usage, so we need to synchronise it
-                    container.set(new org.bukkit.NamespacedKey(WolfyUtilities.getWUPlugin(), "custom_item"), PersistentDataType.STRING, namespacedKey.toString());
+                if (itemMeta != null) {
+                    var container = itemMeta.getPersistentDataContainer();
+                    synchronized (container.getClass()) { // The container has a thread-unsafe map usage, so we need to synchronise it
+                        container.set(new org.bukkit.NamespacedKey(WolfyUtilities.getWUPlugin(), "custom_item"), PersistentDataType.STRING, namespacedKey.toString());
+                    }
+                    itemStack.setItemMeta(itemMeta);
                 }
-                itemStack.setItemMeta(itemMeta);
             }
             if (amount > 0) {
                 itemStack.setAmount(amount);
