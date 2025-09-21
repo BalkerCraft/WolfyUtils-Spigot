@@ -8,11 +8,9 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+//    mavenLocal()
     mavenCentral()
-
     maven(url = "https://artifacts.wolfyscript.com/artifactory/gradle-dev")
-
     maven(url = "https://libraries.minecraft.net/")
 }
 

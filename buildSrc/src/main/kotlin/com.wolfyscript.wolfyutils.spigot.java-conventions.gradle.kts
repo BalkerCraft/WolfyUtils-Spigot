@@ -5,7 +5,7 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+//    mavenLocal()
     mavenCentral()
 
     maven(url = "https://artifacts.wolfyscript.com/artifactory/gradle-dev")
@@ -39,6 +39,7 @@ dependencies {
     compileOnly(libs.netty)
     compileOnly(libs.bstats)
     compileOnly(libs.nbtapi)
+    implementation(libs.jackson.databind)
     // Common Test libs
     testImplementation(libs.wolfyutils)
     testImplementation(libs.junit.jupiter)

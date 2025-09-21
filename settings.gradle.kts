@@ -2,7 +2,7 @@ rootProject.name = "wolfyutils-spigot"
 
 pluginManagement {
     repositories {
-        mavenLocal()
+//        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
         maven("https://artifacts.wolfyscript.com/artifactory/gradle-dev")
