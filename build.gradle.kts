@@ -22,6 +22,7 @@ dependencies {
     api(libs.adventure.minimessage)
     api(libs.adventure.platform.bukkit)
     api(libs.nbtapi)
+//    api(libs.helixitems)
 
     testImplementation(project(":core"))
 
@@ -92,6 +93,7 @@ tasks.named<ShadowJar>("shadowJar") {
         include(dependency("${libs.adventure.platform.bukkit.get().group}:.*"))
         include(dependency("${libs.adventure.minimessage.get().group}:.*"))
         include(dependency("${libs.typesafe.config.get().group}:.*"))
+        include(dependency("${libs.nbtapi.get().group}:.*"))
         include(project(":core"))
         include(project(":plugin-compatibility"))
     }
@@ -107,6 +109,7 @@ tasks.named<ShadowJar>("shadowJar") {
     relocate("javassist", "me.wolfyscript.lib.javassist")
     relocate("com.fasterxml.jackson", "me.wolfyscript.lib.com.fasterxml.jackson")
     relocate("net.kyori", "me.wolfyscript.lib.net.kyori")
+    relocate("de.tr7zw.changeme", "me.wolfyscript.lib.nbt.nbtapi")
 }
 
 tasks.named("test") {

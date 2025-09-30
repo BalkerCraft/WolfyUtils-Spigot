@@ -2,6 +2,10 @@ plugins {
     id("com.wolfyscript.wolfyutils.spigot.java-conventions")
 }
 
+repositories {
+    mavenLocal()
+}
+
 dependencies {
     compileOnly("com.denizenscript:denizen:1.2.5-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
