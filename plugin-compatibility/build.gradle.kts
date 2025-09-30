@@ -12,6 +12,7 @@ dependencies {
     compileOnly("com.willfp:eco:6.75.1")
     compileOnly("dev.lone:api-itemsadder:4.0.2-beta-release-11")
     compileOnly("io.th0rgal:oraxen:1.163.0")
+    compileOnly("com.nexomc:nexo:1.10.0")
     compileOnly("io.lumine:MythicLib:1.1.5")
     compileOnly("net.Indyuce:MMOItems-API:6.9.2-SNAPSHOT")
     compileOnly("io.lumine:Mythic-Dist:5.6.1")
