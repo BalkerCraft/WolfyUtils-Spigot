@@ -75,7 +75,7 @@ tasks.named<ShadowJar>("shadowJar") {
     relocate("javassist", "me.wolfyscript.lib.javassist")
     relocate("com.fasterxml.jackson", "me.wolfyscript.lib.com.fasterxml.jackson")
     relocate("net.kyori", "me.wolfyscript.lib.net.kyori")
-    relocate("de.tr7zw.changeme", "me.wolfyscript.lib.nbtapi")
+    relocate("de.tr7zw.changeme", "me.wolfyscript.lib.nbt.nbtapi")
 }
 
 tasks.named("test") {
