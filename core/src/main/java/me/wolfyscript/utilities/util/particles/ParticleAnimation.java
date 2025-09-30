@@ -22,10 +22,11 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wolfyscript.utilities.bukkit.persistent.player.PlayerParticleEffectData;
+import me.wolfyscript.utilities.api.WolfyUtilCore;
 import me.wolfyscript.utilities.api.WolfyUtilities;
 import me.wolfyscript.utilities.util.Keyed;
 import me.wolfyscript.utilities.util.NamespacedKey;
-import me.wolfyscript.utilities.util.entity.PlayerUtils;
 import me.wolfyscript.utilities.util.json.jackson.annotations.OptionalKeyReference;
 import me.wolfyscript.utilities.util.particles.pos.*;
 import org.bukkit.Bukkit;
@@ -179,7 +180,8 @@ public class ParticleAnimation implements Keyed {
      * @param slot   The {@link EquipmentSlot} this animation is spawned on.
      */
     public void spawn(Player player, EquipmentSlot slot) {
-        PlayerUtils.setActiveParticleEffect(player, slot, new Scheduler(player).start());
+        WolfyUtilCore.getInstance().getPersistentStorage().getOrCreatePlayerStorage(player).getData(PlayerParticleEffectData.class)
+                .ifPresent(data -> data.setActiveParticleEffect(slot, new Scheduler(player).start()));
     }
 
     @Override

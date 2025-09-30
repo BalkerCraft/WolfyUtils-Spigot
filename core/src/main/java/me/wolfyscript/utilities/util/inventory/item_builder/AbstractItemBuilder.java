@@ -20,15 +20,10 @@ package me.wolfyscript.utilities.util.inventory.item_builder;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Preconditions;
-import de.tr7zw.changeme.nbtapi.NBTCompound;
-import de.tr7zw.changeme.nbtapi.NBTCompoundList;
-import de.tr7zw.changeme.nbtapi.NBTItem;
-import de.tr7zw.changeme.nbtapi.NBTListCompound;
+import de.tr7zw.nbtapi.NBTCompound;
+import de.tr7zw.nbtapi.NBTCompoundList;
+import de.tr7zw.nbtapi.NBTItem;
 import me.wolfyscript.utilities.api.WolfyUtilCore;
-import me.wolfyscript.utilities.util.EncryptionUtils;
-import me.wolfyscript.utilities.util.version.MinecraftVersion;
-import me.wolfyscript.utilities.util.version.ServerVersion;
 import net.kyori.adventure.platform.bukkit.BukkitComponentSerializer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -360,7 +355,7 @@ public abstract class AbstractItemBuilder<T extends AbstractItemBuilder<?>> {
             NBTItem nbtItem = new NBTItem(getItemStack());
             NBTCompound skull = nbtItem.getCompound("SkullOwner");
             if (skull != null) {
-                if(skull.hasKey("Properties")) {
+                if (skull.hasKey("Properties")) {
                     NBTCompound properties = skull.getCompound("Properties");
                     if (properties.hasKey("textures")) {
                         NBTCompoundList textures = properties.getCompoundList("textures");
@@ -377,60 +372,43 @@ public abstract class AbstractItemBuilder<T extends AbstractItemBuilder<?>> {
     }
 
     public T setPlayerHeadValue(String value, String name, UUID uuid) {
-        if (ServerVersion.isAfterOrEq(MinecraftVersion.of(1, 18, 1))) {
-            // We can (need to) use the new player profile API
-            if (getItemMeta() instanceof SkullMeta meta) {
-                PlayerProfile profile = Bukkit.createPlayerProfile(uuid, name);
+        // We can (need to) use the new player profile API
+        if (getItemMeta() instanceof SkullMeta meta) {
+            PlayerProfile profile = Bukkit.createPlayerProfile(uuid, name);
 
-                String textureUrl = value;
-                if (!value.startsWith("https://") && !value.startsWith("http://")) {
-                    //WolfyUtilCore.getInstance().getLogger().log(Level.WARNING, String.format("Using Base64 Texture property (%s) to create player head: %s", value, getItemStack()));
-                    // The value is a base64 encoded texture value. This was previously supported, but requires a conversion now.
-                    try {
-                        String decoded = new String(Base64.getDecoder().decode(value));
-                        Matcher matcher = SKIN_TEXTURE_PATTERN.matcher(decoded);
-                        if (!matcher.find()) {
-                            WolfyUtilCore.getInstance().getLogger().log(Level.SEVERE, String.format("Could not apply player head texture \"%s\" to stack %s: Failed to match decoded value %s", value, getItemStack(), decoded));
-                            return get();
-                        }
-                        try {
-                            textureUrl = matcher.group(1);
-                        } catch (IllegalStateException | IndexOutOfBoundsException e) {
-                            WolfyUtilCore.getInstance().getLogger().log(Level.SEVERE, String.format("Could not apply player head texture \"%s\" to stack %s: Failed to match decoded value %s", value, getItemStack(), decoded), e);
-                            return get();
-                        }
-                    } catch (IllegalArgumentException e) {
-                        WolfyUtilCore.getInstance().getLogger().log(Level.SEVERE, String.format("Could not apply player head texture \"%s\" to stack %s: Value is neither an URL nor a base64 encoded texture value!", value, getItemStack()), e);
+            String textureUrl = value;
+            if (!value.startsWith("https://") && !value.startsWith("http://")) {
+                //WolfyUtilCore.getInstance().getLogger().log(Level.WARNING, String.format("Using Base64 Texture property (%s) to create player head: %s", value, getItemStack()));
+                // The value is a base64 encoded texture value. This was previously supported, but requires a conversion now.
+                try {
+                    String decoded = new String(Base64.getDecoder().decode(value));
+                    Matcher matcher = SKIN_TEXTURE_PATTERN.matcher(decoded);
+                    if (!matcher.find()) {
+                        WolfyUtilCore.getInstance().getLogger().log(Level.SEVERE, String.format("Could not apply player head texture \"%s\" to stack %s: Failed to match decoded value %s", value, getItemStack(), decoded));
                         return get();
                     }
-                }
-
-                try {
-                    profile.getTextures().setSkin(new URL(textureUrl));
-                } catch (MalformedURLException e) {
-                    WolfyUtilCore.getInstance().getLogger().log(Level.WARNING, String.format("Could not apply player head texture \"%s\" to stack %s", value, getItemStack()), e);
+                    try {
+                        textureUrl = matcher.group(1);
+                    } catch (IllegalStateException | IndexOutOfBoundsException e) {
+                        WolfyUtilCore.getInstance().getLogger().log(Level.SEVERE, String.format("Could not apply player head texture \"%s\" to stack %s: Failed to match decoded value %s", value, getItemStack(), decoded), e);
+                        return get();
+                    }
+                } catch (IllegalArgumentException e) {
+                    WolfyUtilCore.getInstance().getLogger().log(Level.SEVERE, String.format("Could not apply player head texture \"%s\" to stack %s: Value is neither an URL nor a base64 encoded texture value!", value, getItemStack()), e);
                     return get();
                 }
-
-                meta.setOwnerProfile(profile);
-                setItemMeta(meta);
             }
-            return get();
+
+            try {
+                profile.getTextures().setSkin(new URL(textureUrl));
+            } catch (MalformedURLException e) {
+                WolfyUtilCore.getInstance().getLogger().log(Level.WARNING, String.format("Could not apply player head texture \"%s\" to stack %s", value, getItemStack()), e);
+                return get();
+            }
+
+            meta.setOwnerProfile(profile);
+            setItemMeta(meta);
         }
-        // Backwards compatibility for pre-1.18.1 without the new API feature
-        Preconditions.checkArgument(!name.isEmpty(), "Name of Skull cannot be empty!");
-        String textureValue = value;
-        if (value.startsWith("https://") || value.startsWith("http://")) {
-            textureValue = EncryptionUtils.getBase64EncodedString(String.format("{textures:{SKIN:{url:\"%s\"}}}", value));
-        }
-        NBTItem nbtItem = new NBTItem(getItemStack(), true);
-        NBTCompound skull = nbtItem.addCompound("SkullOwner");
-        skull.setString("Name", name);
-        skull.setString("Id", uuid.toString());
-        // The UUID, note that skulls with the same UUID but different textures will misbehave and only one texture will load
-        // (They'll share it), if skulls have different UUIDs and same textures they won't stack. See UUID.randomUUID();
-        NBTListCompound texture = skull.addCompound("Properties").getCompoundList("textures").addCompound();
-        texture.setString("Value",  textureValue);
         return get();
     }
 

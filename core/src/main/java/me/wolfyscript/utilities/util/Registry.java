@@ -21,7 +21,6 @@ package me.wolfyscript.utilities.util;
 import com.google.common.base.Preconditions;
 import me.wolfyscript.utilities.api.WolfyUtilCore;
 import me.wolfyscript.utilities.api.WolfyUtilities;
-import me.wolfyscript.utilities.api.inventory.custom_items.CustomData;
 import me.wolfyscript.utilities.api.inventory.custom_items.CustomItem;
 import me.wolfyscript.utilities.api.inventory.custom_items.meta.Meta;
 import me.wolfyscript.utilities.api.inventory.custom_items.references.WolfyUtilitiesRef;
@@ -67,17 +66,6 @@ public interface Registry<V extends Keyed> extends Iterable<V> {
      */
     CustomItemRegistry CUSTOM_ITEMS = new CustomItemRegistry();
 
-    /**
-     * Contains {@link CustomData.Provider} that can be used in any Custom Item from the point of registration.
-     * <br>
-     * You can register any CustomData you might want to add to your CustomItems and then save and load it from config too.
-     * <br>
-     * It allows you to save and load custom data into a CustomItem and makes things a lot easier if you have some items that perform specific actions with the data etc.
-     * <br>
-     * For example CustomCrafting registers it's own CustomData, that isn't in this core API, for it's Elite Workbenches that open up custom GUIs dependent on their CustomData.
-     * And also the Recipe Book uses a CustomData object to store some data.
-     */
-    Registry<CustomData.Provider<?>> CUSTOM_ITEM_DATA = new WrapperRegistry<>(() -> WolfyUtilCore.getInstance().getRegistries().getCustomItemData());
     /**
      * @deprecated This registry has no longer any functionality. It was replaced by {@link Registries#getCustomItemNbtChecks()}
      */

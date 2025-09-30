@@ -25,10 +25,9 @@ minotaur = "2.+"
 ## ##
 
 ## Spigot Impl dependencies ##
-papermc = "1.21.1-R0.1-SNAPSHOT"
+papermc = "1.21.5-R0.1-SNAPSHOT"
 wolfyutils = "4.16.1-SNAPSHOT"
-nbtapi = "2.15.1"
-helixitems = "0.1"
+nbtapi = "2.14.1"
 ## ##
 
 ## Testing
@@ -64,9 +63,8 @@ typesafe-config = { module = "com.typesafe:config", version.ref = "typesafe-conf
 io-papermc-paper = { module = "io.papermc.paper:paper-api", version.ref = "papermc" }
 wolfyutils = { module = "com.wolfyscript.wolfyutils:wolfyutilities", version.ref = "wolfyutils" }
 bstats = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
-nbtapi = { module = "de.tr7zw:item-nbt-api", version.ref = "nbtapi"}
+nbtapi = { module = "de.tr7zw:item-nbt-api-plugin", version.ref = "nbtapi"}
 adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", version.ref = "adventure-platform-api" }
-helixitems = { module = "hu.kamillplayz:helixitems", version.ref = "helixitems" }
 ## ##
 
 ## Testing

@@ -22,8 +22,8 @@ import com.wolfyscript.utilities.bukkit.persistent.player.PlayerParticleEffectDa
 import com.wolfyscript.utilities.bukkit.persistent.player.PlayerStorage;
 import me.wolfyscript.utilities.api.WolfyUtilCore;
 import me.wolfyscript.utilities.api.inventory.custom_items.CustomItem;
-import me.wolfyscript.utilities.util.entity.PlayerUtils;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -53,7 +53,7 @@ public class CustomParticleListener implements Listener {
         var playerInventory = player.getInventory();
         var newItem = playerInventory.getItem(event.getNewSlot());
         var item = CustomItem.getByItemStack(newItem);
-        PlayerUtils.stopActiveParticleEffect(player, EquipmentSlot.HAND);
+        stopParticleEffect(player, EquipmentSlot.HAND);
         if (item != null) {
             item.getParticleContent().spawn(player, EquipmentSlot.HAND);
         }
@@ -62,8 +62,8 @@ public class CustomParticleListener implements Listener {
     @EventHandler
     public void onSwitch(PlayerSwapHandItemsEvent event) {
         var player = event.getPlayer();
-        PlayerUtils.stopActiveParticleEffect(player, EquipmentSlot.HAND);
-        PlayerUtils.stopActiveParticleEffect(player, EquipmentSlot.OFF_HAND);
+        stopParticleEffect(player, EquipmentSlot.HAND);
+        stopParticleEffect(player, EquipmentSlot.OFF_HAND);
         var mainHand = CustomItem.getByItemStack(event.getMainHandItem());
         if (mainHand != null) {
             mainHand.getParticleContent().spawn(player, EquipmentSlot.HAND);
@@ -80,8 +80,13 @@ public class CustomParticleListener implements Listener {
         var currentItem = player.getInventory().getItemInMainHand();
 
         if (currentItem.getType().equals(Material.AIR) || currentItem.getAmount() <= 0) {
-            PlayerUtils.stopActiveParticleEffect(player, EquipmentSlot.HAND);
+            stopParticleEffect(player, EquipmentSlot.HAND);
         }
+    }
+
+    private void stopParticleEffect(Player player, EquipmentSlot equipmentSlot) {
+        core.getPersistentStorage().getOrCreatePlayerStorage(player).getData(PlayerParticleEffectData.class)
+                .ifPresent(data -> data.stopActiveParticleEffect(equipmentSlot));
     }
 
     @EventHandler

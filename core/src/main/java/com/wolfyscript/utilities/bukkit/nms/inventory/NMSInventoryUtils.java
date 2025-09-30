@@ -9,10 +9,7 @@ public class NMSInventoryUtils {
 
     @Deprecated(forRemoval = true, since = "4.17")
     public static void setCurrentRecipe(Inventory inventory, NamespacedKey recipeId) {
-        if (ServerVersion.isAfterOrEq(MinecraftVersions.v1_20)) {
-            return; // skip on latest versions
-        }
-        LegacyNMSInventoryUtils.setCurrentRecipe(inventory, recipeId);
+        // skip on latest versions
     }
 
 

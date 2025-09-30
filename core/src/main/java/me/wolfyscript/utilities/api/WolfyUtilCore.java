@@ -5,15 +5,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.wolfyscript.jackson.dataformat.hocon.HoconMapper;
 import com.wolfyscript.utilities.bukkit.WolfyUtilsBukkit;
 import com.wolfyscript.utilities.bukkit.chat.ChatImpl;
-import com.wolfyscript.utilities.bukkit.commands.ChatActionCommand;
-import com.wolfyscript.utilities.bukkit.commands.InfoCommand;
-import com.wolfyscript.utilities.bukkit.commands.InputCommand;
-import com.wolfyscript.utilities.bukkit.commands.QueryDebugCommand;
-import com.wolfyscript.utilities.bukkit.commands.SpawnParticleAnimationCommand;
-import com.wolfyscript.utilities.bukkit.commands.SpawnParticleEffectCommand;
+import com.wolfyscript.utilities.bukkit.commands.*;
 import com.wolfyscript.utilities.bukkit.items.CustomItemBlockData;
 import com.wolfyscript.utilities.bukkit.items.CustomItemData;
-import com.wolfyscript.utilities.bukkit.listeners.EquipListener;
 import com.wolfyscript.utilities.bukkit.listeners.GUIInventoryListener;
 import com.wolfyscript.utilities.bukkit.listeners.PersistentStorageListener;
 import com.wolfyscript.utilities.bukkit.listeners.PlayerListener;
@@ -21,25 +15,7 @@ import com.wolfyscript.utilities.bukkit.listeners.custom_item.CustomDurabilityLi
 import com.wolfyscript.utilities.bukkit.listeners.custom_item.CustomItemDataListener;
 import com.wolfyscript.utilities.bukkit.listeners.custom_item.CustomItemPlayerListener;
 import com.wolfyscript.utilities.bukkit.listeners.custom_item.CustomParticleListener;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNode;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeBoolean;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeByte;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeByteArray;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeCompound;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeDouble;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeFloat;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeInt;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeIntArray;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeListCompound;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeListDouble;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeListFloat;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeListInt;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeListLong;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeListString;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeLong;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeShort;
-import com.wolfyscript.utilities.bukkit.nbt.QueryNodeString;
-import com.wolfyscript.utilities.bukkit.nms.item.crafting.FunctionalRecipeGenerator;
+import com.wolfyscript.utilities.bukkit.nbt.*;
 import com.wolfyscript.utilities.bukkit.persistent.PersistentStorage;
 import com.wolfyscript.utilities.bukkit.persistent.player.CustomPlayerData;
 import com.wolfyscript.utilities.bukkit.persistent.player.PlayerParticleEffectData;
@@ -49,37 +25,9 @@ import com.wolfyscript.utilities.bukkit.world.items.reference.StackIdentifier;
 import com.wolfyscript.utilities.bukkit.world.items.reference.WolfyUtilsStackIdentifier;
 import com.wolfyscript.utilities.common.WolfyCore;
 import me.wolfyscript.utilities.api.console.Console;
-import me.wolfyscript.utilities.api.inventory.custom_items.CustomData;
 import me.wolfyscript.utilities.api.inventory.custom_items.CustomItem;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.Action;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.ActionCommand;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.ActionParticleAnimation;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.ActionSound;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.Event;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.EventPlayerConsumeItem;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.EventPlayerInteract;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.EventPlayerInteractAtEntity;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.EventPlayerInteractEntity;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.EventPlayerItemBreak;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.EventPlayerItemDamage;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.EventPlayerItemDrop;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.EventPlayerItemHandSwap;
-import me.wolfyscript.utilities.api.inventory.custom_items.actions.EventPlayerItemHeld;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.AttributesModifiersMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.CustomDamageMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.CustomDurabilityMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.CustomItemTagMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.CustomModelDataMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.DamageMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.EnchantMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.FlagsMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.LoreMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.Meta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.NameMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.PlayerHeadMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.PotionMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.RepairCostMeta;
-import me.wolfyscript.utilities.api.inventory.custom_items.meta.UnbreakableMeta;
+import me.wolfyscript.utilities.api.inventory.custom_items.actions.*;
+import me.wolfyscript.utilities.api.inventory.custom_items.meta.*;
 import me.wolfyscript.utilities.api.inventory.custom_items.references.APIReference;
 import me.wolfyscript.utilities.api.inventory.custom_items.references.VanillaRef;
 import me.wolfyscript.utilities.api.inventory.custom_items.references.WolfyUtilitiesRef;
@@ -90,60 +38,22 @@ import me.wolfyscript.utilities.main.configs.WUConfig;
 import me.wolfyscript.utilities.messages.MessageFactory;
 import me.wolfyscript.utilities.messages.MessageHandler;
 import me.wolfyscript.utilities.registry.Registries;
-import me.wolfyscript.utilities.util.eval.operators.BoolOperatorConst;
-import me.wolfyscript.utilities.util.eval.operators.ComparisonOperatorEqual;
-import me.wolfyscript.utilities.util.eval.operators.ComparisonOperatorGreater;
-import me.wolfyscript.utilities.util.eval.operators.ComparisonOperatorGreaterEqual;
-import me.wolfyscript.utilities.util.eval.operators.ComparisonOperatorLess;
-import me.wolfyscript.utilities.util.eval.operators.ComparisonOperatorLessEqual;
-import me.wolfyscript.utilities.util.eval.operators.ComparisonOperatorNotEqual;
-import me.wolfyscript.utilities.util.eval.operators.LogicalOperatorAnd;
-import me.wolfyscript.utilities.util.eval.operators.LogicalOperatorNot;
-import me.wolfyscript.utilities.util.eval.operators.LogicalOperatorOr;
-import me.wolfyscript.utilities.util.eval.operators.Operator;
-import me.wolfyscript.utilities.util.eval.value_providers.ValueProvider;
-import me.wolfyscript.utilities.util.eval.value_providers.ValueProviderConditioned;
-import me.wolfyscript.utilities.util.eval.value_providers.ValueProviderFloatConst;
-import me.wolfyscript.utilities.util.eval.value_providers.ValueProviderFloatVar;
-import me.wolfyscript.utilities.util.eval.value_providers.ValueProviderIntegerConst;
-import me.wolfyscript.utilities.util.eval.value_providers.ValueProviderIntegerVar;
-import me.wolfyscript.utilities.util.eval.value_providers.ValueProviderStringConst;
-import me.wolfyscript.utilities.util.eval.value_providers.ValueProviderStringVar;
+import me.wolfyscript.utilities.util.eval.operators.*;
+import me.wolfyscript.utilities.util.eval.value_providers.*;
 import me.wolfyscript.utilities.util.inventory.CreativeModeTab;
 import me.wolfyscript.utilities.util.json.jackson.JacksonUtil;
 import me.wolfyscript.utilities.util.json.jackson.KeyedTypeIdResolver;
 import me.wolfyscript.utilities.util.json.jackson.annotations.OptionalKeyReference;
 import me.wolfyscript.utilities.util.json.jackson.annotations.OptionalValueDeserializer;
 import me.wolfyscript.utilities.util.json.jackson.annotations.OptionalValueSerializer;
-import me.wolfyscript.utilities.util.json.jackson.serialization.APIReferenceSerialization;
-import me.wolfyscript.utilities.util.json.jackson.serialization.BukkitNamespacedKeySerialization;
-import me.wolfyscript.utilities.util.json.jackson.serialization.ColorSerialization;
-import me.wolfyscript.utilities.util.json.jackson.serialization.DustOptionsSerialization;
-import me.wolfyscript.utilities.util.json.jackson.serialization.ItemStackSerialization;
-import me.wolfyscript.utilities.util.json.jackson.serialization.LocationSerialization;
-import me.wolfyscript.utilities.util.json.jackson.serialization.PotionEffectSerialization;
-import me.wolfyscript.utilities.util.json.jackson.serialization.PotionEffectTypeSerialization;
-import me.wolfyscript.utilities.util.json.jackson.serialization.VectorSerialization;
-import me.wolfyscript.utilities.util.particles.animators.Animator;
-import me.wolfyscript.utilities.util.particles.animators.AnimatorBasic;
-import me.wolfyscript.utilities.util.particles.animators.AnimatorCircle;
-import me.wolfyscript.utilities.util.particles.animators.AnimatorShape;
-import me.wolfyscript.utilities.util.particles.animators.AnimatorSphere;
-import me.wolfyscript.utilities.util.particles.animators.AnimatorVectorPath;
-import me.wolfyscript.utilities.util.particles.shapes.Shape;
-import me.wolfyscript.utilities.util.particles.shapes.ShapeCircle;
-import me.wolfyscript.utilities.util.particles.shapes.ShapeComplexCompound;
-import me.wolfyscript.utilities.util.particles.shapes.ShapeComplexRotation;
-import me.wolfyscript.utilities.util.particles.shapes.ShapeCube;
-import me.wolfyscript.utilities.util.particles.shapes.ShapeIcosahedron;
-import me.wolfyscript.utilities.util.particles.shapes.ShapeSphere;
-import me.wolfyscript.utilities.util.particles.shapes.ShapeSquare;
+import me.wolfyscript.utilities.util.json.jackson.serialization.*;
+import me.wolfyscript.utilities.util.particles.animators.*;
+import me.wolfyscript.utilities.util.particles.shapes.*;
 import me.wolfyscript.utilities.util.particles.timer.Timer;
 import me.wolfyscript.utilities.util.particles.timer.TimerLinear;
 import me.wolfyscript.utilities.util.particles.timer.TimerPi;
 import me.wolfyscript.utilities.util.particles.timer.TimerRandom;
 import me.wolfyscript.utilities.util.version.ServerVersion;
-import me.wolfyscript.utilities.util.world.WorldUtils;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -189,13 +99,12 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
     protected final Map<String, WolfyUtilities> wolfyUtilsInstances = new HashMap<>();
     protected final WolfyUtilities api;
     protected final Registries registries;
-    private final List<com.fasterxml.jackson.databind.module.SimpleModule> jsonMapperModules = new ArrayList<>();
+    private final List<SimpleModule> jsonMapperModules = new ArrayList<>();
     private WUConfig config;
 
     private final MessageHandler messageHandler;
     private final MessageFactory messageFactory;
     private final PersistentStorage persistentStorage;
-    private final FunctionalRecipeGenerator functionalRecipeGenerator;
 
     protected WolfyUtilCore() {
         super();
@@ -213,7 +122,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
         this.messageHandler = new MessageHandler(this);
         this.messageFactory = new MessageFactory(this);
         this.persistentStorage = new PersistentStorage(this);
-        this.functionalRecipeGenerator = FunctionalRecipeGenerator.create(this);
         this.config = new WUConfig(api.getConfigAPI(), this);
 
         // Data that needs to be registered
@@ -234,8 +142,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
     public void onLoad() {
         getLogger().setLevel(Level.ALL);
 
-        functionalRecipeGenerator.generateRecipeClasses();
-
         // Jackson Serializer
         getLogger().info("Register JSON de-/serializers");
         var module = new SimpleModule();
@@ -250,8 +156,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
         VectorSerialization.create(module);
         // APIReference Deserializer
         APIReferenceSerialization.create(module);
-        // Serializer for the old CustomData
-        module.addSerializer(CustomData.DeprecatedCustomDataWrapper.class, new CustomData.Serializer());
 
         // Add module to WU Modules and register it to the old JacksonUtil.
         jsonMapperModules.add(module);
@@ -427,7 +331,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
         if (!ServerVersion.isIsJUnitTest()) {
             this.metrics = new Metrics(this, 5114);
 
-            WorldUtils.load();
             registerListeners();
             registerCommands();
 
@@ -446,7 +349,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
         Bukkit.getPluginManager().registerEvents(new CustomDurabilityListener(this), this);
         Bukkit.getPluginManager().registerEvents(new CustomParticleListener(this), this);
         Bukkit.getPluginManager().registerEvents(new CustomItemPlayerListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new EquipListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
         Bukkit.getPluginManager().registerEvents(new GUIInventoryListener(), this);
         Bukkit.getPluginManager().registerEvents(new PersistentStorageListener(this), this);
@@ -610,10 +512,6 @@ public abstract class WolfyUtilCore extends JavaPlugin implements WolfyCore {
 
     public PersistentStorage getPersistentStorage() {
         return persistentStorage;
-    }
-
-    public FunctionalRecipeGenerator getFunctionalRecipeGenerator() {
-        return functionalRecipeGenerator;
     }
 
     @Override

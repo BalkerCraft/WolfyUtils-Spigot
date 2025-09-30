@@ -27,7 +27,6 @@ import com.wolfyscript.utilities.bukkit.registry.RegistryStackIdentifierParsers;
 import com.wolfyscript.utilities.bukkit.world.items.reference.StackIdentifier;
 import me.wolfyscript.utilities.api.WolfyUtilCore;
 import me.wolfyscript.utilities.api.WolfyUtilities;
-import me.wolfyscript.utilities.api.inventory.custom_items.CustomData;
 import me.wolfyscript.utilities.api.inventory.custom_items.CustomItem;
 import me.wolfyscript.utilities.api.inventory.custom_items.actions.Action;
 import me.wolfyscript.utilities.api.inventory.custom_items.actions.Event;
@@ -77,7 +76,6 @@ public class Registries {
 
     //Value registries
     private final RegistryCustomItem customItems;
-    private final Registry<CustomData.Provider<?>> customItemData;
     private final RegistryParticleEffect particleEffects;
     private final RegistryParticleAnimation particleAnimations;
     private final Registry<Action<?>> customItemActionValues;
@@ -107,7 +105,6 @@ public class Registries {
         this.core = core;
 
         customItems = new RegistryCustomItem(this);
-        customItemData = new RegistrySimple<>(new NamespacedKey(core, "custom_item_data"), this);
         particleEffects = new RegistryParticleEffect(this);
         particleAnimations = new RegistryParticleAnimation(this);
         customItemActionValues = new RegistrySimple<>(ITEM_ACTION_VALUES, this, (Class<Action<?>>)(Object) Action.class);
@@ -178,21 +175,6 @@ public class Registries {
      */
     public RegistryCustomItem getCustomItems() {
         return customItems;
-    }
-
-    /**
-     * Contains {@link CustomData.Provider} that can be used in any Custom Item from the point of registration.
-     * <br>
-     * You can register any CustomData you might want to add to your CustomItems and then save and load it from config too.
-     * <br>
-     * It allows you to save and load custom data into a CustomItem and makes things a lot easier if you have some items that perform specific actions with the data etc.
-     * <br>
-     * For example CustomCrafting registers its own CustomData, that isn't in this core API, for its Elite Workbenches that open up custom GUIs dependent on their CustomData.
-     * And also the Recipe Book uses a CustomData object to store some data.
-     * @return The registry of {@link CustomData.Provider}
-     */
-    public Registry<CustomData.Provider<?>> getCustomItemData() {
-        return customItemData;
     }
 
     /**
